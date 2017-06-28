@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+	<title>Document</title>
+	<style type="text/css">
+		#div1{
+			width: 200px;
+			height: 200px;
+			background-color: red;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	</style>
+	<script type="text/javascript">
+	window.addEventListener('DOMContentLoaded',function(){
+		var oDiv=document.getElementById('div1');
+		
+		oDiv.addEventListener('touchstart',function(ev){
+			var l=0;
+		    var t=0;
+			var oldL=oDiv.offsetLeft;
+			var oldT=oDiv.offsetTop;
+			var oldX=ev.targetTouches[0].pageX;
+			var oldY=ev.targetTouches[0].pageY;
+			function move (ev){
+				l=ev.targetTouches[0].pageX-oldX;
+				t=ev.targetTouches[0].pageY-oldY;
+				oDiv.style.WebkitTransform='translate('+l+'px,'+t+'px)';
+			}
+			function end(){
+				oDiv.style.top=oldT+t+'px';
+				oDiv.style.left=oldL+l+'px';
+				oDiv.style.WebkitTransform='';
+
+				oDiv.removeEventListener('touchmove',move,false);
+				oDiv.removeEventListener('touchend',end,false);
+			}
+			oDiv.addEventListener('touchmove',move,false);
+			oDiv.addEventListener('touchend',end,false);
+			ev.preventDefault();
+		},false);
+    },false)
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+</html> 
